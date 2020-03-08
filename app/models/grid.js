@@ -6,7 +6,7 @@ const gridSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    grid: {
+    walls: {
       type: Array,
       required: true
     },
@@ -17,7 +17,9 @@ const gridSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
   }
 )
 

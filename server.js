@@ -1,4 +1,5 @@
 // require necessary NPM packages
+const gridRoutes = require('./app/routes/grid_routes')
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -62,6 +63,7 @@ app.use(requestLogger)
 
 // register route files
 app.use(exampleRoutes)
+app.use(gridRoutes)
 app.use(userRoutes)
 
 // register error handling middleware
