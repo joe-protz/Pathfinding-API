@@ -12,6 +12,7 @@ const gridRoutes = require('./app/routes/grid_routes')
 const errorHandler = require('./lib/error_handler')
 const replaceToken = require('./lib/replace_token')
 const requestLogger = require('./lib/request_logger')
+const removeBlanks = require('./lib/remove_blank_fields')
 
 // require database configuration logic
 // `db` will be the actual Mongo URI as a string
@@ -62,6 +63,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // register route files
+app.use(removeBlanks)
 app.use(exampleRoutes)
 app.use(gridRoutes)
 app.use(userRoutes)
