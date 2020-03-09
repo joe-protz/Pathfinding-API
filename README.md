@@ -63,7 +63,7 @@ URI Pattern        |	View
 
 ## ERD
 
-![ERD](https://imgur.com/z7O1MIA.png)
+![ERD](https://imgur.com/ssD6JLG.png)
 
 ## Wireframes 
 ![Unauthenticated homepage](https://imgur.com/C9gOeSi.png)
