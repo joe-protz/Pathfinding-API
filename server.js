@@ -1,5 +1,4 @@
 // require necessary NPM packages
-const gridRoutes = require('./app/routes/grid_routes')
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -7,6 +6,7 @@ const cors = require('cors')
 // require route files
 const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
+const gridRoutes = require('./app/routes/grid_routes')
 
 // require middleware
 const errorHandler = require('./lib/error_handler')

@@ -8,7 +8,8 @@ const gridSchema = new mongoose.Schema(
     },
     walls: {
       type: Array,
-      required: true
+      required: true,
+      default: undefined
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
