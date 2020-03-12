@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  firstTime: {
+    type: Boolean,
+    default: true
+  },
   token: String
 }, {
   timestamps: true,

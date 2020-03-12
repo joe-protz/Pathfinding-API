@@ -137,5 +137,11 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
     .then(() => res.sendStatus(204))
     .catch(next)
 })
-
+router.patch('/userVisit', requireToken, (req, res, next) => {
+  req.user.firstTime = false
+  req.user
+    .save()
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
 module.exports = router
