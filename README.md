@@ -1,43 +1,180 @@
+# Pathfinding Visualization API
+This API is meant to let a user sign in/up/out, change their password, and CRUD grids with a name and array of boolean values. The boolean values should be used to map to a 2d grid og 50x50 on a front end client.
+
 ## Important Links
-https://www.npmjs.com/package/react-p5
-https://git.generalassemb.ly/ga-wdi-boston/react-styling
+- [Deployed Client](https://joe-protz.github.io/Pathfinding-Visualizer-Client/)
+- [Client Repo](https://github.com/joe-protz/Pathfinding-Visualizer-Client)
+- [API Repo](https://github.com/joe-protz/Pathfinding-API)
+- [Deployed Heroku Link](https://glacial-bastion-01354.herokuapp.com)
+
+## Planning Story
+
+This API was relatively straightforwad, it uses a basic single resource owned by a user. There were a few challenges along the way, such as how to store an array of booleans correctly, how to know if a user has visited a client, and how to add an 'editable' field to a resource. In the end I ended up creating a module in lib that takes an item and a user, and returns that object with a new field 'editable' with a boolean value.
+
+## Installation
+- Download this repo as a zip or fork and clone it
+- Unzip if necessary
+- Run NPM Install
+- Ensure that you have nodemon installed by running npm install -g nodemon.
 
 
 ### Technologies Used
 
-- React
-- HTML/CSS
-- Bootstrap
 - Javascript
-- Axios
-- SCSS 
-- p5.js
-- react-p5
+- Express
+- Mongoose
+- MongoDB
 
+### Authentication
 
-### Catalog of Routes
+| Verb   | URI Pattern            | Controller#Action |
+|--------|------------------------|-------------------|
+| POST   | `/sign-up`             | `users#signup`    |
+| POST   | `/sign-in`             | `users#signin`    |
+| PATCH  | `/change-password/` | `users#changepw`  |
+| DELETE | `/sign-out/`        | `users#signout`   |
+| PATCH  | `/userVisit'`        | `users#changeVisited`| 
+#### POST /sign-up
 
-Verb         |	URI Pattern
------------- | -------------
-GET | /grids
-GET | /grids/:id
-POST | /grids
-PATCH | /grids/:id
-DELETE | /grids/:id
+Request:
 
-### Catalog of Client Routes
+```sh
+curl --include --request POST http://localhost:4741/sign-up \
+  --header "Content-Type: application/json" \
+  --data '{
+    "credentials": {
+      "email": "an@example.email",
+      "password": "an example password",
+      "password_confirmation": "an example password"
+    }
+  }'
+```
 
-URI Pattern        |	View
------------- | -------------
-/sign-up | Sign Up Form
-/sign-in | Sign In Form
-/sign-out | Home
-/change-password | Change Password form
-/all | All grids
-/grids | All User's grids
-/grids/:id | Unique grid
-/grids/:id/edit | Submits changes to user's grid
-/grids/:id/delete | Delete's user's grid and redirects to all grids
+```sh
+curl-scripts/sign-up.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+
+{
+  "user": {
+    "id": 1,
+    "email": "an@example.email"
+  }
+}
+```
+
+#### POST /sign-in
+
+Request:
+
+```sh
+curl --include --request POST http://localhost:4741/sign-in \
+  --header "Content-Type: application/json" \
+  --data '{
+    "credentials": {
+      "email": "an@example.email",
+      "password": "an example password"
+    }
+  }'
+```
+
+```sh
+curl-scripts/sign-in.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+  "user": {
+    "id": 1,
+    "email": "an@example.email",
+    "token": "33ad6372f795694b333ec5f329ebeaaa"
+  }
+}
+```
+
+#### PATCH /change-password/
+
+Request:
+
+```sh
+curl --include --request PATCH http://localhost:4741/change-password/ \
+  --header "Authorization: Token token=$TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "passwords": {
+      "old": "an example password",
+      "new": "super sekrit"
+    }
+  }'
+```
+
+```sh
+TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/change-password.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 204 No Content
+```
+
+#### DELETE /sign-out/
+
+Request:
+
+```sh
+curl --include --request DELETE http://localhost:4741/sign-out/ \
+  --header "Authorization: Token token=$TOKEN"
+```
+
+```sh
+TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/sign-out.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 204 No Content
+```
+
+#### PATCH /userVisit/
+
+Request:
+
+```sh
+curl --include --request PATCH http://localhost:4741/userVisit/ \
+  --header "Authorization: Token token=$TOKEN"
+```
+
+```sh
+TOKEN=33ad6372f795694b333ec5f329ebeaaa curl-scripts/sign-out.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 204 No Content
+```
+### Grids
+
+| Verb   | URI Pattern            | Controller#Action |
+|--------|------------------------|-------------------|
+| GET   | `/grids`    | `grids#index`    |
+| GET   | `/grids/:id`     | `grids#show`    |
+| GET  | `/my/grids` | `show#ownedGrids`  |
+| DELETE | `/grids/:id`  | `grids#destory`   |
+| POST  | `grids`        | `grids#create`| 
+| PATCH | `/grids/:id`  | `grids#update`| 
 
 
 ## User Stories
@@ -65,10 +202,5 @@ URI Pattern        |	View
 
 ![ERD](https://imgur.com/ssD6JLG.png)
 
-## Wireframes 
-![Unauthenticated homepage](https://imgur.com/C9gOeSi.png)
-![Authenticated homepage first visit](https://imgur.com/6wB4xfI.png)
-![Authenticated homepage](https://imgur.com/bl52JCE.png)
-![Single Owned View](https://imgur.com/MYwBK76.png)
-![Single UnAuth View](https://imgur.com/y3ULW2R.png)
-
+## Unsolved Issues
+- Need to add much more validation
