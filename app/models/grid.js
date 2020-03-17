@@ -12,6 +12,11 @@ const gridSchema = new mongoose.Schema(
       required: true,
       default: undefined
     },
+    weights: {
+      type: Array,
+      required: true,
+      default: undefined
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
